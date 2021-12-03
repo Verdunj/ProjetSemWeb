@@ -48,14 +48,16 @@ public final class App {
             System.out.println(" .");
         }
 
-        // Dataset ds = DatasetFactory.create(uriList);
+        Dataset ds = DatasetFactory.create(model);
+        Dataset ds2 = DatasetFactory.create();
 
+        Server server = new Server();
+        // server.start();
+        String urlTest = "http://localhost:3030/test";
+        server.connect(urlTest);
+        server.insertTest();
 
-
-        FusekiServer server = FusekiServer.create()
-                .build();
-        server.start();
-
+        // server.insert(lsNodes.get(1));
 
     }
 }
