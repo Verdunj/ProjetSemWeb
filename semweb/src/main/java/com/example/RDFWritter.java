@@ -110,7 +110,7 @@ public class RDFWritter {
         this.setLsFileRDF(lsFileRDF);
     }
 
-    public void addNodeFromXML(Model model) {
+    public void addNodeFromModel(Model model) {
         StmtIterator iter = model.listStatements();
 
         while (iter.hasNext()) {

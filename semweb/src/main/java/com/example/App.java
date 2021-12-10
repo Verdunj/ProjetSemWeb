@@ -28,7 +28,7 @@ public final class App {
             model.read(emseRDF.getSavePath()+fileName, "RDF/XML");
         }
 
-        emseRDF.addNodeFromXML(model);
+        emseRDF.addNodeFromModel(model);
         // emseRDF.printListNode();
 
         Dataset ds = DatasetFactory.create(model);
