@@ -16,9 +16,9 @@ public class Server {
     private RDFConnectionRemoteBuilder builder;
 
     public Server() {
-        
     }
 
+    // create server with download dataset at url DATASET_NAME
     public Server(Dataset ds) {
         server = FusekiServer.create().port(3030).add(DATASET_NAME, ds).build();
     }
@@ -27,16 +27,16 @@ public class Server {
         server = FusekiServer.create().build();
     }
 
-    public void start(){
+    public void start() {
         server.start();
     }
 
-    public void connect(){
+    public void connect() {
         builder = RDFConnectionFuseki.create().destination(URL);
     }
 
-    public void connect(String url){
-        builder = RDFConnectionFuseki.create().destination(url+"/update");
+    public void connect(String url) {
+        builder = RDFConnectionFuseki.create().destination(url + "/update");
     }
 
     public Boolean insert(Node node) {
@@ -60,9 +60,9 @@ public class Server {
         return true;
     }
 
-    public Boolean insertTest(){
+    public Boolean insertTest() {
         String data = ":test  rdf:etat   rdf:test";
-        String query = "prefix INSERT DATA {" +data+". } ;";
+        String query = "prefix INSERT DATA {" + data + ". } ;";
 
         String query2 = " INSERT { <http://example/egbook> dc:title  'test sans prefix' } WHERE {}";
 
@@ -75,7 +75,7 @@ public class Server {
             request.add(query2);
             conn.update(request);
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             return false;
         }
 
