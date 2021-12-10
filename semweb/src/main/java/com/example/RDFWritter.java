@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -21,6 +21,7 @@ import org.jsoup.select.Elements;
 
 public class RDFWritter {
     private List<Node> lsNodes = new ArrayList<>();
+    private List<String> lsFileRDF = new ArrayList<>();
     private String savePath = "src/main/java/com/example/data/";
     private String url = "https://territoire.emse.fr/kg/";
 
@@ -79,6 +80,9 @@ public class RDFWritter {
 
                     String savedFileName = link.text();
                     FileOutputStream fos = new FileOutputStream(this.savePath + savedFileName);
+
+                    this.addFileName(savedFileName);
+
                     fos.write(bytes);
                     fos.close();
                 }
@@ -92,6 +96,18 @@ public class RDFWritter {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void setFileName(){
+        File directory = new File(this.getSavePath());
+        File[] contents = directory.listFiles();
+        List<String> lsFileRDF = new ArrayList<>();
+
+        for(File elem : contents){
+            lsFileRDF.add(elem.getName());
+        }
+
+        this.setLsFileRDF(lsFileRDF);
     }
 
     public void addNodeFromXML(Model model) {
@@ -151,6 +167,18 @@ public class RDFWritter {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void addFileName(String name) {
+        this.lsFileRDF.add(name);
+    }
+
+    public List<String> getLsFileRDF() {
+        return lsFileRDF;
+    }
+
+    public void setLsFileRDF(List<String> lsFileRDF) {
+        this.lsFileRDF = lsFileRDF;
     }
 
 }
