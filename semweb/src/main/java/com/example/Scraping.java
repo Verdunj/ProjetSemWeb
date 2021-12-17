@@ -1,6 +1,7 @@
 package com.example;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.jena.riot.SysRIOT;
 import org.jsoup.Jsoup;
@@ -11,6 +12,7 @@ import org.jsoup.select.Elements;
 public class Scraping {
     public String url;
     Document content;
+    ArrayList<ItemMeteo> listeItem = new ArrayList<ItemMeteo>();
 
     public Scraping(String url) throws IOException {
         this.url = url;
@@ -20,13 +22,25 @@ public class Scraping {
 
     public void parseTableRow() {
         Elements rows = this.content.getElementsByTag("table").get(7).getElementsByTag("tr");
+        String temperature = " ";
+        String heure = " ";
         for (int i = 1; i < rows.size(); i++) {
             Element row = rows.get(i);
             Elements cols = row.select("td");
+
             for (int j = 0; j < cols.size(); j++) {
-                System.out.print(cols.get(j).text() + " ");
+
+                if (j == 0) {
+                    System.out.print(cols.get(j).text() + " ");
+                    heure = cols.get(j).text();
+                }
+                if (j == 4) {
+                    System.out.print(cols.get(j).text() + " ");
+                    temperature = cols.get(j).text();
+                }
 
             }
+            listeItem.add(new ItemMeteo(temperature, heure));
             System.out.println("------------");
 
         }
