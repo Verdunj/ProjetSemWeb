@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -95,7 +96,11 @@ class AppTest {
             e.printStackTrace();
             assertEquals(0, 1);
         }
-        
-        
+    }
+
+    @Test
+    void extractCSV(){
+        List<SensorMeasur> lsMeasurs = CSVSensor.readCSV();
+        System.out.println(lsMeasurs.get(0).toString());
     }
 }
