@@ -22,7 +22,7 @@ import org.jsoup.select.Elements;
 public class RDFWritter {
     private List<Node> lsNodes = new ArrayList<>();
     private List<String> lsFileRDF = new ArrayList<>();
-    private String savePath = "src/main/java/com/example/data/";
+    private String savePath = "src/main/java/com/example/data/rdf/";
     private String url = "https://territoire.emse.fr/kg/";
 
     // Use default value
