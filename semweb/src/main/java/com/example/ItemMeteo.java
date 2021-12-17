@@ -1,20 +1,20 @@
 package com.example;
 
 public class ItemMeteo {
-    String temps;
+    String temperature;
     String heure;
 
     public ItemMeteo(String temps, String heure) {
-        this.temps = temps;
+        this.temperature = temps;
         this.heure = heure;
     }
 
-    public String getTemps() {
-        return temps;
+    public String getTemperature() {
+        return temperature;
     }
 
-    public void setTemps(String temps) {
-        this.temps = temps;
+    public void setTemperature(String temps) {
+        this.temperature = temps;
     }
 
     public String getHeure() {

@@ -3,7 +3,6 @@ package com.example;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.jena.riot.SysRIOT;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
