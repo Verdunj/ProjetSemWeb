@@ -53,6 +53,10 @@ public class Scraping {
         this.url = url;
     }
 
+    public ArrayList<ItemMeteo> getItems() {
+        return this.listeItem;
+    }
+
     public static void main(String[] args) throws IOException {
         String url = "https://www.meteociel.fr/temps-reel/obs_villes.php?code2=7475";
         Scraping scrap = new Scraping(url);

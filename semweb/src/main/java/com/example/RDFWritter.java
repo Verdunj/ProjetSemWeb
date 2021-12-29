@@ -22,7 +22,7 @@ import org.jsoup.select.Elements;
 public class RDFWritter {
     private List<Node> lsNodes = new ArrayList<>();
     private List<String> lsFileRDF = new ArrayList<>();
-    private String savePath = "src/main/java/com/example/data/";
+    private String savePath = "C:\\Users\\Jean Pierre\\Documents\\M2\\Sem_Web\\ProjetSemWeb\\semweb\\src\\main\\java\\com\\example\\data";
     private String url = "https://territoire.emse.fr/kg/";
 
     // Use default value
@@ -98,12 +98,16 @@ public class RDFWritter {
         }
     }
 
-    public void setFileName(){
+    public void setFileName() {
         File directory = new File(this.getSavePath());
         File[] contents = directory.listFiles();
         List<String> lsFileRDF = new ArrayList<>();
-
-        for(File elem : contents){
+        if (directory.exists()) {
+            System.out.println("il existe");
+        } else {
+            System.out.println("il existe pas");
+        }
+        for (File elem : contents) {
             lsFileRDF.add(elem.getName());
         }
 
@@ -124,9 +128,9 @@ public class RDFWritter {
         }
     }
 
-    public void printListNode(){
+    public void printListNode() {
 
-        for(Node node : lsNodes){
+        for (Node node : lsNodes) {
             Resource subject = node.getSubject(); // get the subject
             Property predicate = node.getPredicate(); // get the predicate
             RDFNode object = node.getObject(); // get the object
@@ -142,7 +146,7 @@ public class RDFWritter {
 
             System.out.println(" .");
         }
-        
+
     }
 
     public List<Node> getLsNodes() {
