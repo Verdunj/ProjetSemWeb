@@ -9,6 +9,8 @@ import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Hello world!
@@ -38,6 +40,8 @@ public final class App {
          * }
          */
         SimpleDateFormat formatterYear = new SimpleDateFormat("yyyy");
+        SimpleDateFormat formatterM = new SimpleDateFormat("MM");
+        SimpleDateFormat formatterD = new SimpleDateFormat("dd");
         Date date = new Date();
         String todayYear = formatterYear.format(date);
         Scraping scrap = new Scraping(url);
@@ -51,11 +55,36 @@ public final class App {
         Resource dateResource = model.createResource(ex + "d");
         Resource typeResource = model.createResource(time + "DateTimeDescription");
         Property type = model.createProperty(rdf + "type");
+        Pattern p = Pattern.compile("[0-9]*\\.?[0-9]+");
+
         model.add(dateResource, type, typeResource);
-        model.add(dateResource, model.createProperty(time + "hasYear"),
+        model.add(dateResource, model.createProperty(time + "year"),
                 ResourceFactory.createTypedLiteral(todayYear, XSDDatatype.XSDgYear));
+
+        model.add(dateResource, model.createProperty(time + "month"),
+                ResourceFactory.createTypedLiteral(formatterM.format(date), XSDDatatype.XSDgMonth));
+
+        model.add(dateResource, model.createProperty(time + "day"),
+                ResourceFactory.createTypedLiteral(formatterD.format(date), XSDDatatype.XSDgDay));
+
         for (ItemMeteo item : scrap.getItems()) {
-            System.out.println(item.getTemperature());
+            Matcher regHeure = p.matcher(item.getHeure());
+            Matcher regTemp = p.matcher(item.getTemperature());
+
+            model.add(dateResource, model.createProperty(ex + "hasTime"),
+                    model.createResource(ex + ("H" + item.getHeure()).replace(" ", "_")));
+
+            model.add(model.getResource(ex + ("H" + item.getHeure()).replace(" ",
+                    "_")), model.createProperty(ex + "at"),
+                    ResourceFactory.createTypedLiteral("Saint-Etienne", XSDDatatype.XSDstring));
+
+            model.add(model.getResource(ex + ("H" + item.getHeure()).replace(" ", "_")),
+                    model.createProperty(ex + "hasTemp"),
+                    ResourceFactory.createTypedLiteral(item.getTemperature(),
+                            XSDDatatype.XSDinteger));
+            model.add(model.getResource(ex + ("H" + item.getHeure()).replace(" ",
+                    "_")), model.createProperty(time + "hours"),
+                    ResourceFactory.createTypedLiteral(item.getHeure(), XSDDatatype.XSDdecimal));
 
         }
 
