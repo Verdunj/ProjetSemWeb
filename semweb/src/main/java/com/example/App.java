@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.List;
+
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.*;
@@ -18,15 +20,26 @@ public final class App {
      */
     public static void main(String[] args) {
 
+        //////////////////////////////
+        //    CREATION DU MODEL    //
+        //////////////////////////////
+
         RDFWritter emseRDF = new RDFWritter();
         // emseRDF.downloadAll();
         emseRDF.setFileName();
 
         Model model = ModelFactory.createDefaultModel();
 
-        for(String fileName :emseRDF.getLsFileRDF()){
-            model.read(emseRDF.getSavePath()+fileName, "RDF/XML");
-        }
+        // for(String fileName :emseRDF.getLsFileRDF()){
+        //     model.read(emseRDF.getSavePath()+fileName, "RDF/XML");
+        // }
+
+        List<SensorMeasur> lsMeasurs = CSVSensor.readCSV();
+        model = CSVSensor.addSensoreModel(model, lsMeasurs);
+
+        //////////////////////////////
+        // AJOUT DU MODEL AU SERVER //
+        //////////////////////////////
 
         emseRDF.addNodeFromModel(model);
         // emseRDF.printListNode();

@@ -11,22 +11,22 @@ public class SensorMeasur {
     private String time;
 
     @CsvBindByName(column = "HMDT")
-    private float hmdt;
+    private double hmdt;
 
     @CsvBindByName(column = "LUMI")
-    private float lumi;
+    private double lumi;
 
     @CsvBindByName(column = "SND")
-    private float snd;
+    private double snd;
 
     @CsvBindByName(column = "SNDF")
-    private float sndf;
+    private double sndf;
 
     @CsvBindByName(column = "SNDM")
-    private float sndm;
+    private double sndm;
 
     @CsvBindByName(column = "TEMP")
-    private float temp;
+    private double temp;
 
     @CsvBindByName(column = "id")
     private String id;
@@ -36,6 +36,70 @@ public class SensorMeasur {
 
     @CsvBindByName(column = "type")
     private String type;
+
+    public enum ResultType {
+        HMDT("g/m3"), LUMI("lm"), SND("snd"), SNDF("sndf"), SNDM("sndm"), TEMP("Cel");
+
+        private String uom;
+
+        private ResultType(String uom) {
+            this.uom = uom;
+        }
+
+        public String getUOM() {
+            return this.uom;
+        }
+    }
+
+    public SensorMeasur() {
+    }
+
+    public SensorMeasur(String name, String time, double hmdt, double lumi, double snd, double sndf, double sndm,
+            double temp,
+            String id, String location, String type) {
+        this.name = name;
+        this.time = time;
+        this.hmdt = hmdt;
+        this.lumi = lumi;
+        this.snd = snd;
+        this.sndf = sndf;
+        this.sndm = sndm;
+        this.temp = temp;
+        this.id = id;
+        this.location = location;
+        this.type = type;
+
+    }
+
+    public String getResultUOM() {
+        if (this.getHmdt() != 0)
+            return "g/m3";
+        else if (this.getLumi() != 0)
+            return "lm";
+        else if (this.getSnd() != 0)
+            return "snd";
+        else if (this.getSndf() != 0)
+            return "sndf";
+        else if (this.getSndm() != 0)
+            return "sndm";
+        else
+            return "Cel";
+    }
+
+    public double getResult() {
+        if (this.getHmdt() != 0)
+            return this.getHmdt();
+        else if (this.getLumi() != 0)
+            return this.getLumi();
+        else if (this.getSnd() != 0)
+            return this.getSnd();
+        else if (this.getSndf() != 0)
+            return this.getSndf();
+        else if (this.getSndm() != 0)
+            return this.getSndm();
+        else
+            return this.getTemp();
+    }
 
     public String getName() {
         return name;
@@ -53,51 +117,51 @@ public class SensorMeasur {
         this.time = time;
     }
 
-    public float getHmdt() {
+    public double getHmdt() {
         return hmdt;
     }
 
-    public void setHmdt(float hmdt) {
+    public void setHmdt(double hmdt) {
         this.hmdt = hmdt;
     }
 
-    public float getLumi() {
+    public double getLumi() {
         return lumi;
     }
 
-    public void setLumi(float lumi) {
+    public void setLumi(double lumi) {
         this.lumi = lumi;
     }
 
-    public float getSnd() {
+    public double getSnd() {
         return snd;
     }
 
-    public void setSnd(float snd) {
+    public void setSnd(double snd) {
         this.snd = snd;
     }
 
-    public float getSndf() {
+    public double getSndf() {
         return sndf;
     }
 
-    public void setSndf(float sndf) {
+    public void setSndf(double sndf) {
         this.sndf = sndf;
     }
 
-    public float getSndm() {
+    public double getSndm() {
         return sndm;
     }
 
-    public void setSndm(float sndm) {
+    public void setSndm(double sndm) {
         this.sndm = sndm;
     }
 
-    public float getTemp() {
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(float temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
     }
 
