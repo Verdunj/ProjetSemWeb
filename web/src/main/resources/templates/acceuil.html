@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <p>Hello ???</p>
+    <form th:action="@{/querying}" method="Post">
+        <p>
+            Votre query :<br />
+            <input type="text" th:name="query" />
+        </p>
+        <hr />
+    
+        <p>
+            <input type="submit" value="Envoyer" />
+            <input type="reset" value="Annuler" />
+        </p>
+    </form>
+</body>
+
+</html>

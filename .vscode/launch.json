@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch App",
+      "request": "launch",
+      "mainClass": "com.example.App",
+      "projectName": "semweb"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-WebApplication<web>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.example.web.WebApplication",
+      "projectName": "web",
+      "args": ""
+    }
+  ]
+}

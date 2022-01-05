@@ -19,7 +19,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 
 public class CSVSensor {
 
-    private final static String defaultPath = "src/main/java/com/example/data/csv/";
+    private final static String defaultPath = "semweb\\src\\main\\java\\com\\example\\data\\csv\\";
     static File folder = new File(CSVSensor.defaultPath);
     static FilenameFilter filter = new FilenameFilter() {
         @Override
@@ -79,9 +79,9 @@ public class CSVSensor {
                     obsId);
 
             m.add(
-                obsId,
-                m.createProperty(sosa + "madeBySensor"),
-                rsId);
+                    obsId,
+                    m.createProperty(sosa + "madeBySensor"),
+                    rsId);
 
             m.add(
                     obsId,
