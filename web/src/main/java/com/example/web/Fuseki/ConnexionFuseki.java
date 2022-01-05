@@ -21,17 +21,15 @@ public class ConnexionFuseki {
                 query);
         ResultSet results = q.execSelect();
         // ResultSetFormatter.out(System.out, results);
-        System.out.println("Alllsdso.?");
+
         while (results.hasNext()) {
-            System.out.println("Alllo.?");
+
             QuerySolution soln = results.nextSolution();
 
             Iterator<String> ite = soln.varNames();
 
             while (ite.hasNext()) {
-                System.out.println("Alllo.?");
                 RDFNode x = soln.get(ite.next());
-                System.err.println("Iterator");
                 System.err.println(x.toString());
             }
 
