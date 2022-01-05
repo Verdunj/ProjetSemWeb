@@ -53,10 +53,12 @@ public class CSVSensor {
         m.setNsPrefix("sosa", "http://www.w3.org/ns/sosa/");
         m.setNsPrefix("ex", "http://example.org/stuff/1.0/");
         m.setNsPrefix("rdf", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>");
+        m.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
 
         String sosa = "http://www.w3.org/ns/sosa/";
         String ex = "http://example.org/stuff/1.0/";
         String rdf = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>";
+        String rdfs = "http://www.w3.org/2000/01/rdf-schema#";
         int idx = 0;
 
         Property rdfType = m.createProperty(rdf + "type");
@@ -64,8 +66,10 @@ public class CSVSensor {
         for (SensorMeasur sensorMeasur : lsMeasurs) {
             Resource rsId = m.createResource(ex + sensorMeasur.getId());
             Resource obsId = m.createResource(ex + sensorMeasur.getId() + "_" + idx);
+            Resource rLoc =  m.createResource(ex + "Location_"+sensorMeasur.getId());
             String type = sensorMeasur.getResultUOM();
             Double result = sensorMeasur.getResult();
+            String classroom = sensorMeasur.getLocation();
             Resource resultResource = m.createResource(sosa + "result" + idx);
 
             m.add(
@@ -118,6 +122,31 @@ public class CSVSensor {
                     resultResource,
                     m.createProperty(sosa + "isResultOf"),
                     rsId);
+            
+            // Classe location
+            m.add(
+                rLoc,
+                rdfType,
+                m.createProperty(sosa + "Sample")
+            );
+
+            m.add(
+                rLoc,
+                m.createProperty(rdfs + "label"),
+                ResourceFactory.createTypedLiteral(classroom, XSDDatatype.XSDstring)
+            );
+
+            m.add(
+                rLoc,
+                m.createProperty(sosa + "isSampleOf"),
+                rsId
+            );
+
+            m.add(
+                rsId,
+                m.createProperty(sosa + "hasSample"),
+                rLoc
+            );
 
             idx++;
         }
