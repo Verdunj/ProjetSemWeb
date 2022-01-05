@@ -19,7 +19,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 
 public class CSVSensor {
 
-    private final static String defaultPath = "src/main/java/com/example/data/csv/";
+    private final static String defaultPath = "semweb\\src\\main\\java\\com\\example\\data\\csv\\"; // semweb\src\main\java\com\example\data\csv
     static File folder = new File(CSVSensor.defaultPath);
     static FilenameFilter filter = new FilenameFilter() {
         @Override
