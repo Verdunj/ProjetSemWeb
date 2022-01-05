@@ -44,8 +44,8 @@ public final class App {
                 // model.read(emseRDF.getSavePath()+fileName, "RDF/XML");
                 // }
 
-                // List<SensorMeasur> lsMeasurs = CSVSensor.readCSV();
-                // model = CSVSensor.addSensoreModel(model, lsMeasurs);
+                List<SensorMeasur> lsMeasurs = CSVSensor.readCSV();
+                model = CSVSensor.addSensoreModel(model, lsMeasurs);
 
                 //////////////////////////////
                 // AJOUT DU MODEL AU SERVER //
