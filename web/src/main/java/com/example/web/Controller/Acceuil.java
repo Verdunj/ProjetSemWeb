@@ -42,7 +42,15 @@ public class Acceuil {
     public String temp(Model m) {
         ConnexionFuseki conn = new ConnexionFuseki();
         String query = "PREFIX time: <http://www.w3.org/2006/time#> PREFIX time: <http://www.w3.org/2006/time#> PREFIX ex:   <http://example/> SELECT ?t ?heure WHERE{?h ex:at \"Saint-Etienne\". ?h ex:hasTemp ?t. ?h time:hours ?heure.}";
-        String query2 = "PREFIX ex:   <http://example/> PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX sosa: <http://www.w3.org/ns/sosa/> PREFIX time: <http://www.w3.org/2006/time#> SELECT ?t ?v WHERE {?r rdf:type sosa:Result. ?r ex:hasType \"Cel\". ?r sosa:isResultOf ?o. ?o sosa:resultTime ?t. ?r ex:hasValue ?v.}";
+        String query2 = "PREFIX ex:   <http://example/> PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX sosa: <http://www.w3.org/ns/sosa/> PREFIX time: <http://www.w3.org/2006/time#>"
+                + "SELECT ?t ?v ?location WHERE {?r rdf:type sosa:Result."
+                + "?r ex:hasType \"Cel\"."
+                + "?r sosa:isResultOf ?o."
+                + "?o sosa:resultTime ?t."
+                + "?r ex:hasValue ?v."
+                + "?o sosa:madeBySensor ?sensor."
+                + "?sensor sosa:hasSample ?sample."
+                + "?sample rdfs:label ?location.}";
         ResultSet res = conn.execReturn(query);
         ResultSet res2 = conn.execReturn(query2);
         float temp = 0;
@@ -66,6 +74,9 @@ public class Acceuil {
             QuerySolution soln = res2.nextSolution();
             tempsSensor = soln.get("t").asLiteral().getString();
             tempeSensor = Float.parseFloat(soln.get("v").asLiteral().getString());
+
+            // System.out.println(soln.get("location"));
+            // String location = soln.get("location").asLiteral().getString();
             // diviser par 1000000 car timestamp en nanoseconde
             Date d = new Date(new Timestamp(Long.parseLong(tempsSensor) / 1000000).getTime());
             String formatedDate = sdf.format(d);
@@ -79,6 +90,7 @@ public class Acceuil {
         for (int i = 0; i < tabtemp.length; i++) {
             System.out.println("moyenne temperature d'une heure : " + tabtemp[i] / compteur[i]);
         }
+        m.addAttribute("moyenne", tabtemp);
         System.out.println("fin " + tempsSensor + " " + tempeSensor);
         return "temperature.html";
     }
