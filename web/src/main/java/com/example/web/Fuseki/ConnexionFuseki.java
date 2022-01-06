@@ -6,6 +6,7 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.RDFNode;
 
 public class ConnexionFuseki {
@@ -19,20 +20,21 @@ public class ConnexionFuseki {
         QueryExecution q = QueryExecutionFactory.sparqlService(url,
                 query);
         ResultSet results = q.execSelect();
-        // ResultSetFormatter.out(System.out, results);
+        ResultSetFormatter.out(System.out, results);
 
-        while (results.hasNext()) {
+        // while (results.hasNext()) {
 
-            QuerySolution soln = results.nextSolution();
+        // QuerySolution soln = results.nextSolution();
 
-            Iterator<String> ite = soln.varNames();
+        // Iterator<String> ite = soln.varNames();
 
-            while (ite.hasNext()) {
-                RDFNode x = soln.get(ite.next());
-                System.err.println(x.toString());
-            }
+        // while (ite.hasNext()) {
+        // RDFNode x = soln.get(ite.next());
+        // System.err.println(x.toString());
+        // }
 
-        }
+        // }
+        System.out.println("Fin query");
     }
 
     public ResultSet execReturn(String query) {

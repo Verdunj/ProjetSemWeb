@@ -40,6 +40,7 @@ public class Acceuil {
         String query = "PREFIX time: <http://www.w3.org/2006/time#> PREFIX time: <http://www.w3.org/2006/time#> PREFIX ex:   <http://example/> SELECT * WHERE{?h ex:at \"Saint-Etienne\". ?h ex:hasTemp ?t.}";
         String query2 = "PREFIX ex:   <http://example/> PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX sosa: <http://www.w3.org/ns/sosa/> PREFIX time: <http://www.w3.org/2006/time#> SELECT ?t ?v WHERE {?r rdf:type sosa:Result. ?r ex:hasType \"Cel\". ?r sosa:isResultOf ?o. ?o sosa:resultTime ?t. ?r ex:hasValue ?v.}";
         ResultSet res = conn.execReturn(query);
+        conn.execSelectAndPrint(query2);
         float totalTemp = 0;
         int nbRes = 0;
         while (res.hasNext()) {

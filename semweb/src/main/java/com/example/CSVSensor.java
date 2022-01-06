@@ -123,7 +123,7 @@ public class CSVSensor {
                         m.add(
                                         resultResource,
                                         m.createProperty(sosa + "isResultOf"),
-                                        rsId);
+                                        obsId);
 
                         // Classe location
                         m.add(
