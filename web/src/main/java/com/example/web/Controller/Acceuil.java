@@ -1,7 +1,5 @@
 package com.example.web.Controller;
 
-import javax.sound.midi.SysexMessage;
-
 import com.example.web.Fuseki.ConnexionFuseki;
 
 import org.apache.jena.query.QueryParseException;
