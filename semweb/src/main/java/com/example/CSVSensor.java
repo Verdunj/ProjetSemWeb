@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
 
+import org.apache.commons.compress.harmony.pack200.NewAttributeBands.Call;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -61,8 +65,10 @@ public class CSVSensor {
                 String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
                 String rdfs = "http://www.w3.org/2000/01/rdf-schema#";
                 int idx = 0;
-
+                Timestamp ts;
                 Property rdfType = m.createProperty(rdf + "type");
+                Date d;
+                Calendar calendar = Calendar.getInstance();
 
                 for (SensorMeasur sensorMeasur : lsMeasurs) {
                         Resource rsId = m.createResource(ex + sensorMeasur.getId());
@@ -92,6 +98,10 @@ public class CSVSensor {
                                         obsId,
                                         rdfType,
                                         m.createResource(sosa + "Observation"));
+
+                        // ts = new Timestamp(Long.parseLong(sensorMeasur.getTime()));
+                        // d = new Date(ts.getTime());calendar.get(Calendar.HOUR_OF_DAY)
+                        // calendar.setTime(d);
 
                         m.add(
                                         obsId,

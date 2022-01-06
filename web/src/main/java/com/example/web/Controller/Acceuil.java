@@ -2,6 +2,9 @@ package com.example.web.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import com.example.web.Fuseki.ConnexionFuseki;
 
@@ -54,19 +57,57 @@ public class Acceuil {
     @RequestMapping(value = "/temp")
     public String temp(Model m) {
         ConnexionFuseki conn = new ConnexionFuseki();
-        String query = "PREFIX time: <http://www.w3.org/2006/time#> PREFIX time: <http://www.w3.org/2006/time#> PREFIX ex:   <http://example/> SELECT * WHERE{?h ex:at \"Saint-Etienne\". ?h ex:hasTemp ?t.}";
-        String query2 = "PREFIX ex:   <http://example/> PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX sosa: <http://www.w3.org/ns/sosa/> PREFIX time: <http://www.w3.org/2006/time#> SELECT ?t ?v WHERE {?r rdf:type sosa:Result. ?r ex:hasType \"Cel\". ?r sosa:isResultOf ?o. ?o sosa:resultTime ?t. ?r ex:hasValue ?v.}";
+        String query = "PREFIX time: <http://www.w3.org/2006/time#> PREFIX time: <http://www.w3.org/2006/time#> PREFIX ex:   <http://example/> SELECT ?t ?heure WHERE{?h ex:at \"Saint-Etienne\". ?h ex:hasTemp ?t. ?h time:hours ?heure.}";
+        String query2 = "PREFIX ex:   <http://example/> PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX sosa: <http://www.w3.org/ns/sosa/> PREFIX time: <http://www.w3.org/2006/time#>"
+                + "SELECT ?t ?v ?location WHERE {?r rdf:type sosa:Result."
+                + "?r ex:hasType \"Cel\"."
+                + "?r sosa:isResultOf ?o."
+                + "?o sosa:resultTime ?t."
+                + "?r ex:hasValue ?v."
+                + "?o sosa:madeBySensor ?sensor."
+                + "?sensor sosa:hasSample ?sample."
+                + "?sample rdfs:label ?location.}";
         ResultSet res = conn.execReturn(query);
-        conn.execSelectAndPrint(query2);
-        float totalTemp = 0;
-        int nbRes = 0;
+        ResultSet res2 = conn.execReturn(query2);
+        float temp = 0;
+        float[] tabtemp = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] compteur = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int n = 0;
+        String tempsSensor = "";
+        float tempeSensor = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("H");
+
         while (res.hasNext()) {
             QuerySolution soln = res.nextSolution();
-            totalTemp += Float.parseFloat(soln.get("t").toString().split(" ")[0]);
-            nbRes++;
+            temp = Float.parseFloat(soln.get("t").toString().split(" ")[0]);
+            int heure = Integer.parseInt(soln.get("heure").toString().split(" ")[0]);
+            System.out.println("temp : " + temp + " heure : " + heure);
 
         }
-        System.err.println("Moyenne : " + (totalTemp / nbRes));
+
+        while (res2.hasNext()) {
+
+            QuerySolution soln = res2.nextSolution();
+            tempsSensor = soln.get("t").asLiteral().getString();
+            tempeSensor = Float.parseFloat(soln.get("v").asLiteral().getString());
+
+            // System.out.println(soln.get("location"));
+            // String location = soln.get("location").asLiteral().getString();
+            // diviser par 1000000 car timestamp en nanoseconde
+            Date d = new Date(new Timestamp(Long.parseLong(tempsSensor) / 1000000).getTime());
+            String formatedDate = sdf.format(d);
+            tabtemp[Integer.parseInt(formatedDate)] += tempeSensor;
+            compteur[Integer.parseInt(formatedDate)]++;
+            if (n < 100) {
+                System.out.println("boucle " + formatedDate + " " + tempeSensor);
+                n++;
+            }
+        }
+        for (int i = 0; i < tabtemp.length; i++) {
+            System.out.println("moyenne temperature d'une heure : " + tabtemp[i] / compteur[i]);
+        }
+        m.addAttribute("moyenne", tabtemp);
+        System.out.println("fin " + tempsSensor + " " + tempeSensor);
         return "temperature.html";
     }
 }
