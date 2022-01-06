@@ -1,0 +1,37 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.org/stuff/1.0/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/Sensor>.
+@prefix ssn: <http://www.w3.org/ns/ssn/Sensor>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix time: <http://www.w3.org/2006/time#>.
+
+# SENSOR
+ex:sensorId a sosa:sensor;
+            sosa:madeObservation ex:measurId_idx;
+            sosa:hasSample ex:Location_measurId.
+
+ex:measurId_idx a sosa:Observation;
+                sosa:madeBySensor ex:sensorId;
+                sosa:resultTime "seansorMeasur time"^^xsd:dateTime;
+                sosa:hasResult sosa:resultIdx.
+
+sosa:resultIdx a sosa:Result;
+               ex:hasType "type"^^xsd:string;
+               ex:hasValue "value"^^xsd:double;
+               sosa:isResultOf ex:measurId_idx.
+
+ex:Location_measurId a sosa:Sample;
+                     rdfs:label "classroom"^^xsd:string;
+                     sosa:isSampleOf ex:sensorId.
+
+# WEATHER
+ex:hour ex:at "lieu" ;
+	ex:hasTemp "temperature"^^xsd:integer;
+	time:hours "10 H"^^xsd:integer.
+
+ex:d    rdf:type    time:DateTimeDescription ;
+        ex:hasTime  ex:H1_h , ex:H17_h , ex:H5_h , ex:H7_h , ex:H12_h , ex:H15_h , ex:H22_h , ex:H20_h , 			ex:H8_h , ex:H9_h , ex:H23_h , ex:H21_h , ex:H14_h , ex:H16_h , ex:H0_h , ex:H13_h , ex:H11_h , 			ex:H10_h , ex:H2_h , ex:H18_h , ex:H4_h , ex:H19_h , ex:H6_h , ex:H3_h ;
+        time:day    "05"^^rdfs:Day ;
+        time:month  "01"^^rdfs:Month ;
+        time:year   "2022"^^rdfs:Year .

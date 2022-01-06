@@ -20,6 +20,61 @@
             <input type="submit" value="Envoyer" />
             <input type="reset" value="Annuler" />
         </div>
+
+        <h2 id="ontologyTitle">Description de nos ontologies</h1>
+        <div class="ontology">
+            <div class="ontologyElem">
+                <pre>
+@prefix xsd: &lsaquo;http://www.w3.org/2001/XMLSchema#\> .<br>
+@prefix rdf: &lsaquo;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .<br>
+@prefix ex: &lsaquo;http://example.org/stuff/1.0/> .<br>
+@prefix sosa: &lsaquo;http://www.w3.org/ns/sosa/Sensor>.<br>
+@prefix ssn: &lsaquo;http://www.w3.org/ns/ssn/Sensor>.<br>
+@prefix rdfs: &lsaquo;http://www.w3.org/2000/01/rdf-schema#>.<br>
+@prefix time: &lsaquo;http://www.w3.org/2006/time#>.<br>
+                </pre>
+            </div>
+            <div class="ontologyElem">
+                <pre>
+ex:sensorId a sosa:sensor;<br>
+    sosa:madeObservation ex:measurId_idx;<br>
+    sosa:hasSample ex:Location_measurId.<br>
+
+ex:measurId_idx a sosa:Observation;<br>
+    sosa:madeBySensor ex:sensorId;<br>
+    sosa:resultTime "seansorMeasur time"^^xsd:dateTime;<br>
+    sosa:hasResult sosa:resultIdx.<br>
+        <br>
+sosa:resultIdx a sosa:Result;<br>
+    ex:hasType "type"^^xsd:string;<br>
+    ex:hasValue "value"^^xsd:double;<br>
+    sosa:isResultOf ex:measurId_idx.<br>
+        <br>
+ex:Location_measurId a sosa:Sample;<br>
+    rdfs:label "classroom"^^xsd:string;<br>
+    sosa:isSampleOf ex:sensorId.<br>
+                </pre>
+            </div>              
+            <div class="ontologyElem">
+                <pre>
+ex:hour ex:at "lieu" ;<br>
+    ex:hasTemp "temperature"^^xsd:integer;<br>
+    time:hours "10 H"^^xsd:integer.<br>
+    <br>
+ex:d    rdf:type    time:DateTimeDescription ;<br>
+    ex:hasTime  ex:H1_h , ex:H17_h , ex:H5_h ,
+        ex:H7_h , ex:H12_h , ex:H15_h , ex:H22_h ,
+        ex:H20_h , ex:H8_h , ex:H9_h , ex:H23_h ,
+        ex:H21_h , ex:H14_h , ex:H16_h , ex:H0_h ,
+        ex:H13_h , ex:H11_h , ex:H10_h , ex:H2_h ,
+        ex:H18_h , ex:H4_h , ex:H19_h , ex:H6_h ,
+        ex:H3_h ;<br>
+    time:day    "05"^^rdfs:Day ;<br>
+    time:month  "01"^^rdfs:Month ;<br>
+    time:year   "2022"^^rdfs:Year .<br>
+                </pre>
+            </div>
+        </div>
     </form>
 </body>
 
