@@ -46,11 +46,12 @@ public class Acceuil {
         ResultSet res = conn.execReturn(query);
         ResultSet res2 = conn.execReturn(query2);
         float temp = 0;
-
+        float[] tabtemp = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int[] compteur = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         int n = 0;
         String tempsSensor = "";
         float tempeSensor = 0;
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+        SimpleDateFormat sdf = new SimpleDateFormat("H");
 
         while (res.hasNext()) {
             QuerySolution soln = res.nextSolution();
@@ -68,11 +69,15 @@ public class Acceuil {
             // diviser par 1000000 car timestamp en nanoseconde
             Date d = new Date(new Timestamp(Long.parseLong(tempsSensor) / 1000000).getTime());
             String formatedDate = sdf.format(d);
-
+            tabtemp[Integer.parseInt(formatedDate)] += tempeSensor;
+            compteur[Integer.parseInt(formatedDate)]++;
             if (n < 100) {
                 System.out.println("boucle " + formatedDate + " " + tempeSensor);
                 n++;
             }
+        }
+        for (int i = 0; i < tabtemp.length; i++) {
+            System.out.println("moyenne temperature d'une heure : " + tabtemp[i] / compteur[i]);
         }
         System.out.println("fin " + tempsSensor + " " + tempeSensor);
         return "temperature.html";
