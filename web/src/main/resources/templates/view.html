@@ -4,15 +4,19 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="css/acceuil.css">
 </head>
 
 <body>
-    <p>Hello View</p>
     <div th:if="${erreur != null}">
-        Boom
-        [[${erreur}]]
-    
-</div>
-    </body>
+        [[${erreur}]] 
+    </div>
+    <div class="resSet">
+        <div th:each="res : ${resList}">
+            <span class="elem" th:text="${res}"></span>
+        </div>
+    </div>
+</body>
     
     </html>

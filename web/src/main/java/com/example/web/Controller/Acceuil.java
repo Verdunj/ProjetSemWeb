@@ -1,5 +1,8 @@
 package com.example.web.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.web.Fuseki.ConnexionFuseki;
 
 import org.apache.jena.query.QueryParseException;
@@ -24,6 +27,20 @@ public class Acceuil {
         ConnexionFuseki conn = new ConnexionFuseki();
         try {
             conn.execSelectAndPrint(query);
+            ResultSet res = conn.execReturn(query);
+            List<String> vars = conn.execReturn(query).getResultVars();
+
+            List<String> displayRes = new ArrayList<>();
+            while(res.hasNext()){
+                QuerySolution soln = res.nextSolution();
+                for (String var : vars) {
+                    String strSol = soln.get(var).toString();
+                    displayRes.add(strSol);
+                }
+            }
+
+            m.addAttribute("resList", displayRes);
+            m.addAttribute("vars", vars);
         } catch (QueryParseException e1) {
             System.err.println(e1);
             System.err.println();
