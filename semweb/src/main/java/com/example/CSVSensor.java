@@ -54,11 +54,11 @@ public class CSVSensor {
         public static Model addSensoreModel(Model m, List<SensorMeasur> lsMeasurs) {
                 m.setNsPrefix("sosa", "http://www.w3.org/ns/sosa/");
                 m.setNsPrefix("ex", "http://example/");
-                m.setNsPrefix("rdf", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>");
+                m.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
                 String sosa = "http://www.w3.org/ns/sosa/";
                 String ex = "http://example/";
-                String rdf = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>";
+                String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
                 int idx = 0;
 
                 Property rdfType = m.createProperty(rdf + "type");
