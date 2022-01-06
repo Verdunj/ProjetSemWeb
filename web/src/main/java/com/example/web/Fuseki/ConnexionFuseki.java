@@ -23,15 +23,24 @@ public class ConnexionFuseki {
         // ResultSetFormatter.out(System.out, results);
 
         while (results.hasNext()) {
+
             QuerySolution soln = results.nextSolution();
-            RDFNode x = soln.get("s");
+
             Iterator<String> ite = soln.varNames();
+
             while (ite.hasNext()) {
-                System.err.println("Iterator");
-                System.err.println(ite.next());
+                RDFNode x = soln.get(ite.next());
+                System.err.println(x.toString());
             }
-            System.err.println(x);
+
         }
+    }
+
+    public ResultSet execReturn(String query) {
+        QueryExecution q = QueryExecutionFactory.sparqlService(url,
+                query);
+        ResultSet results = q.execSelect();
+        return results;
     }
 
 }
