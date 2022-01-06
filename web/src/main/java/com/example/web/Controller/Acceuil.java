@@ -1,5 +1,9 @@
 package com.example.web.Controller;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import com.example.web.Fuseki.ConnexionFuseki;
 
 import org.apache.jena.query.QueryParseException;
@@ -42,10 +46,12 @@ public class Acceuil {
         ResultSet res = conn.execReturn(query);
         ResultSet res2 = conn.execReturn(query2);
         float temp = 0;
-        int nbRes = 0;
+
         int n = 0;
         String tempsSensor = "";
         float tempeSensor = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+
         while (res.hasNext()) {
             QuerySolution soln = res.nextSolution();
             temp = Float.parseFloat(soln.get("t").toString().split(" ")[0]);
@@ -59,9 +65,12 @@ public class Acceuil {
             QuerySolution soln = res2.nextSolution();
             tempsSensor = soln.get("t").asLiteral().getString();
             tempeSensor = Float.parseFloat(soln.get("v").asLiteral().getString());
-            String salle = soln.get("v").asLiteral().getString();
+            // diviser par 1000000 car timestamp en nanoseconde
+            Date d = new Date(new Timestamp(Long.parseLong(tempsSensor) / 1000000).getTime());
+            String formatedDate = sdf.format(d);
+
             if (n < 100) {
-                System.out.println("boucle " + tempsSensor + " " + tempeSensor + " Salle: " + salle);
+                System.out.println("boucle " + formatedDate + " " + tempeSensor);
                 n++;
             }
         }
