@@ -7,7 +7,6 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.SensorMeasur.ResultType;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
 
@@ -19,7 +18,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 
 public class CSVSensor {
 
-        private final static String defaultPath = "semweb\\src\\main\\java\\com\\example\\data\\csv\\";
+        private final static String defaultPath = "semweb\\src\\main\\java\\com\\example\\data\\csv\\"; // semweb\src\main\java\com\example\data\csv
         static File folder = new File(CSVSensor.defaultPath);
         static FilenameFilter filter = new FilenameFilter() {
                 @Override
@@ -54,11 +53,13 @@ public class CSVSensor {
         public static Model addSensoreModel(Model m, List<SensorMeasur> lsMeasurs) {
                 m.setNsPrefix("sosa", "http://www.w3.org/ns/sosa/");
                 m.setNsPrefix("ex", "http://example/");
-                m.setNsPrefix("rdf", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>");
+                m.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+                m.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
 
                 String sosa = "http://www.w3.org/ns/sosa/";
                 String ex = "http://example/";
-                String rdf = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>";
+                String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+                String rdfs = "http://www.w3.org/2000/01/rdf-schema#";
                 int idx = 0;
 
                 Property rdfType = m.createProperty(rdf + "type");
@@ -66,8 +67,10 @@ public class CSVSensor {
                 for (SensorMeasur sensorMeasur : lsMeasurs) {
                         Resource rsId = m.createResource(ex + sensorMeasur.getId());
                         Resource obsId = m.createResource(ex + sensorMeasur.getId() + "_" + idx);
+                        Resource rLoc = m.createResource(ex + "Location_" + sensorMeasur.getId());
                         String type = sensorMeasur.getResultUOM();
                         Double result = sensorMeasur.getResult();
+                        String classroom = sensorMeasur.getLocation();
                         Resource resultResource = m.createResource(sosa + "result" + idx);
 
                         m.add(
@@ -121,6 +124,27 @@ public class CSVSensor {
                                         resultResource,
                                         m.createProperty(sosa + "isResultOf"),
                                         rsId);
+
+                        // Classe location
+                        m.add(
+                                        rLoc,
+                                        rdfType,
+                                        m.createProperty(sosa + "Sample"));
+
+                        m.add(
+                                        rLoc,
+                                        m.createProperty(rdfs + "label"),
+                                        ResourceFactory.createTypedLiteral(classroom, XSDDatatype.XSDstring));
+
+                        m.add(
+                                        rLoc,
+                                        m.createProperty(sosa + "isSampleOf"),
+                                        rsId);
+
+                        m.add(
+                                        rsId,
+                                        m.createProperty(sosa + "hasSample"),
+                                        rLoc);
 
                         idx++;
                 }

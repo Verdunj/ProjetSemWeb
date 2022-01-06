@@ -106,6 +106,7 @@ public class RDFWritter {
             System.out.println("il existe");
         } else {
             System.out.println("il existe pas");
+            return;
         }
         for (File elem : contents) {
             lsFileRDF.add(elem.getName());
