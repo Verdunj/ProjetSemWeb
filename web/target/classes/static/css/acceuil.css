@@ -1,0 +1,38 @@
+
+:root{
+    --font-size: 17px;
+    color-scheme: light dark;
+}
+
+body{
+    font-family: sans-serif;
+    width: 100%;
+    font-size: var(--font-size);
+}
+
+.queryDiv{
+    width: 80%;
+    margin-top: 15%;
+    margin-bottom: 5%;
+}
+
+.queryInput{
+    font-size: var(--font-size);
+    width: 100%;
+    padding: 1% 1%;
+    margin: 0 9%;
+    resize: vertical;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.submitDiv{
+    width: 100%;
+    text-align: center;
+}
+
+input{
+    margin: 0 4%;
+    width: 8%;
+    padding: 0.5% 1%;
+}
