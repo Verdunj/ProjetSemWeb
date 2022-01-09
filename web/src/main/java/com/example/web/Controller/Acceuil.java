@@ -59,14 +59,12 @@ public class Acceuil {
         ConnexionFuseki conn = new ConnexionFuseki();
         String query = "PREFIX time: <http://www.w3.org/2006/time#> PREFIX time: <http://www.w3.org/2006/time#> PREFIX ex:   <http://example/> SELECT ?t ?heure WHERE{?h ex:at \"Saint-Etienne\". ?h ex:hasTemp ?t. ?h time:hours ?heure.}";
         String query2 = "PREFIX ex:   <http://example/> PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX sosa: <http://www.w3.org/ns/sosa/> PREFIX time: <http://www.w3.org/2006/time#>"
-                + "SELECT ?t ?v ?location WHERE {?r rdf:type sosa:Result."
+                + "SELECT ?t ?v WHERE {?r rdf:type sosa:Result."
                 + "?r ex:hasType \"Cel\"."
                 + "?r sosa:isResultOf ?o."
                 + "?o sosa:resultTime ?t."
-                + "?r ex:hasValue ?v."
-                + "?o sosa:madeBySensor ?sensor."
-                + "?sensor sosa:hasSample ?sample."
-                + "?sample rdfs:label ?location.}";
+                + "?r ex:hasValue ?v.}";
+                
         ResultSet res = conn.execReturn(query);
         ResultSet res2 = conn.execReturn(query2);
         float temp = 0;
